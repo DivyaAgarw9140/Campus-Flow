@@ -1,0 +1,3 @@
+FLOW IN PARAGRAPH->
+
+First, the menu_items table stores the list of all food available in the canteen (for example: Samosa, Chai, Sandwich). Each item has an ID, name, and price. When a student logs in and places an order, a new row is created in the orders table, which records who placed the order (user_id), the total price, the order status, and a token number. But an order can contain multiple foods, so the order_items table stores the actual contents of the order. Each row in order_items connects one order (order_id) with one food item (menu_item_id) and how many were ordered (quantity). So the complete flow is: menu_items defines what food exists → orders records that a user placed an order → order_items lists which menu items and quantities are inside that order.
