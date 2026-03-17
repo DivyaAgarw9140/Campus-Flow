@@ -1,5 +1,5 @@
 "use server"
-import {createClient} from '@supabase/supabase-js';
+import {createClient} from "@/utils/supabase/server";
 import {redirect} from 'next/navigation';
 export async function signUp(formdata:FormData)
 {
