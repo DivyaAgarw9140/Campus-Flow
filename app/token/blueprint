@@ -1,0 +1,36 @@
+🚀 Project Idea: Campus-Flow
+The Problem: Canteen mein bheed, token ke liye ladaai, aur class se late hona.
+The Solution: Ek mobile-friendly web app jahan bacha class se nikalte hi order kare, canteen wale ko ticket mil jaye, aur jab khana ready ho toh bache ke phone par notification aa jaye.
+🛠 Tech Stack (Industry Standard - Backend Focused)
+Component	Technology	Why it's a "Bhaiya-Level" choice?
+Frontend	Next.js 15 (Tailwind + Shadcn/UI)	Mobile-first look deta hai aur fast hai.
+Backend	Node.js (Express) + TypeScript	Type safety interview mein bohot badi baat mani jati hai.
+Database	PostgreSQL (Supabase)	ACID transactions ke liye best hai (Order miss nahi hona chahiye).
+Real-time	Socket.io or Supabase Realtime	Order status Pending se Ready hotey hi screen update hogi.
+State/Cart	Zustand	Cart management handle karne ke liye (Jaise FoodBash mein hai).
+Payments	Razorpay (Test Mode)	Real-world feel deta hai.
+⚙️ Backend Logic (Jo aapko practice karni hai)
+Recruiter aapka backend dekh kar impress hoga agar aapne ye 3 cheezein handle ki:
+The Order Lifecycle (State Machine):
+PLACED -> ACCEPTED -> PREPARING -> READY -> COLLECTED.
+Backend logic likhna ki koi status bypass na kar sake.
+Concurrency Handling (Inventory Lock):
+Problem: Canteen mein 5 Samosas bache hain, lekin 10 bacho ne ek saath "Order" daba diya.
+Backend Practice: Database locking seekho taaki inventory minus mein na chali jaye.
+The "Token" System:
+Har order par ek unique Digital Token (QR code style) generate karna jo student canteen mein dikhayega.
+📱 Product-Level Screens (Value Addition)
+Student Dashboard: Live menu, live crowd indicator (Canteen mein kitni bheed hai), aur active orders.
+Canteen Dashboard (The Real System): Yahan canteen wala bade boxes mein order dekhega aur button dabayega "Food is Ready".
+Admin Panel: Price update karna, menu item add/delete karna (Full CRUD practice).
+💡 Why is this better than a simple "Food App"?
+Daily Use: Bacha har break mein isse use karega.
+Solves Human Problem: No more standing in lines.
+Real Value: Canteen wale ka hisab-kitab (accounting) asan ho jata hai.
+🏆 GitHub par standout kaise hoga?
+Sakal bhaiya ke project mein 310 commits hain. Aapko bhi roz thoda-thoda build karna hai.
+Day 1: Database Schema (Users, Food, Orders).
+Day 2: Auth (College Email Login).
+Day 3: Cart logic aur Order placing.
+Day 4: Live status updates using WebSockets.
+Kya hum iska Database Schema (Tables) design karna shuru karein? Wahi se backend ka asli kaam shuru hota hai.

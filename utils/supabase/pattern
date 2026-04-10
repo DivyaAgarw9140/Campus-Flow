@@ -1,0 +1,22 @@
+1. import createServerClient
+2. import cookies
+3. get cookieStore
+4. createServerClient(URL, KEY, {cookies:{get,set,remove}})
+
+
+
+Final Flow of the Whole File
+
+When a user visits your site:
+
+User request
+     ↓
+Next.js server
+     ↓
+createClient()
+     ↓
+cookies() reads session cookie
+     ↓
+Supabase client created
+     ↓
+Supabase knows if user is logged in

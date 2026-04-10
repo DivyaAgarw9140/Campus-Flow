@@ -1,0 +1,48 @@
+🚀 Project Name: Campus-Flow
+The Mission: "Eliminate canteen queues by allowing students to pre-order, track, and collect meals using digital tokens."
+🛠 Tech Stack (The Modern Industry Standard)
+Frontend: Next.js 15 (App Router) + Tailwind CSS + shadcn/ui.
+Backend: Next.js Server Actions (Node.js environment).
+Database: Supabase (PostgreSQL).
+Real-time Logic: Supabase Realtime (WebSockets).
+Authentication: Supabase Auth (Restricted to @college.edu emails).
+Payments (Optional/Demo): Razorpay Test Mode.
+📊 Phase 1: Database Schema (The Backend Foundation)
+Sabse pehle ye 4 tables design karni hain Supabase mein:
+Profiles: id, full_name, email, role (STUDENT/STAFF).
+Menu_Items: id, name, price, category, is_available (Boolean), image_url.
+Orders: id, user_id, total_price, status (PENDING, PREPARING, READY, COLLECTED), token_number, created_at.
+Order_Items: id, order_id, menu_item_id, quantity.
+⚙️ Phase 2: Core Backend Logic (Your Practice Area)
+Ye 3 features aapke backend ko "Senior Level" banayenge:
+1. The "Transaction-Safe" Ordering
+Jab bacha "Order" dabaye, toh backend ko ye ensure karna hai:
+Student ke paas sufficient balance hai? (Agar wallet system hai).
+Kya item sach mein available hai?
+Order aur Order_Items dono tables mein ek saath entry honi chahiye (Database Transaction).
+2. Real-time Status Sync (WebSockets)
+Bacha order karke baith gaya. Canteen wala button dabaye "Ready":
+Backend status update karega READY.
+Supabase Realtime bache ki screen par bina refresh kiye status change kar dega.
+Backend Practice: Real-time data subscription seekhoge.
+3. Secure Token Verification
+Khana collect karte waqt bacha ek QR code ya Token dikhayega.
+Staff scan karega/verify karega.
+Backend status ko COLLECTED kar dega aur wo order history mein chala jayega.
+📱 Phase 3: The User Experience (Screens)
+Student Side:
+Home: Categories (Chai, Maggi, Lunch).
+Cart: Items add karo aur "Place Order" dabao.
+Order Tracking: Ek simple visual timeline (Order Placed -> Preparing -> Ready).
+Canteen Side (The System):
+Active Orders Board: Bade-bade cards jisme likha ho "Token #45 - 2 Samosa".
+Status Toggles: Staff bas ek click se status change karega.
+Menu Management: Ek button se "Chai" ko "Sold Out" mark kar dena.
+🏁 Phase 4: Roadmap (3 Weeks)
+Week 1: Setup Next.js + Supabase. Menu items database mein daalo aur unhe frontend par dikhao. (CRUD Operation).
+Week 2: Cart functionality aur Order placing logic. (Database Transactions).
+Week 3: Canteen Staff Dashboard aur Real-time status updates. (WebSockets/Realtime).
+🏆 Recruiters ko kya dikhana hai?
+Jab aap isse resume mein likho, toh ye 3 lines zaroor bolna:
+"I handled concurrency during peak hours to prevent inventory errors."
+"Implemented real-time state management so students get instant order updates."

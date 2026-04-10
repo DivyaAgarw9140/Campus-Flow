@@ -1,0 +1,2 @@
+Browser handles UI + user actions
+Server handles security + auth state
