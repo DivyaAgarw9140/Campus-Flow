@@ -1,0 +1,58 @@
+₹{totalPrice}
+6. Confirm button
+alert("Connecting to Phase 2...")
+
+👉 This means:
+
+“Order is placed (dummy for now)”
+
+🧠 FINAL SIMPLE IDEA
+
+This page does 4 things:
+
+🟢 1. Reads cart
+
+👉 gets items from global context
+
+🟢 2. Shows items
+
+👉 list of food/products
+
+🟢 3. Lets you remove items
+
+👉 delete button
+
+🟢 4. Shows total bill + confirm order
+
+👉 checkout summary
+
+🎯 ONE-LINE EXPLANATION (VERY IMPORTANT)
+
+This checkout page displays cart items, allows removal, and shows total bill before confirming the order.
+
+🧠 SUPER SHORT MEMORY TRICK
+
+Think:
+
+👉 LEFT SIDE = ITEMS LIST 🛍️
+👉 RIGHT SIDE = BILL SUMMARY 💰
+👉 TOP = TITLE
+👉 EMPTY = “No items” message
+👉 BOTTOM = “Confirm Order” button
+
+User opens cart page
+        ↓
+Check cart.length
+        ↓
+Is cart empty?
+        ↓ YES
+Render Empty State Page
+        ↓
+Show CTA → Navigate to Home/Menu
+Cart empty
+   ↓
+Show empty message
+   ↓
+User clicks "Back to Menu"
+   ↓
+Go to homepage to add items

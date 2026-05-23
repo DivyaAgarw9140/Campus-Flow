@@ -1,0 +1,1 @@
+We wrap with CartProvider so Navbar, Product page, and Cart page all share the same cart data.
