@@ -49,6 +49,17 @@ export default async function HomePage() {
                    <Cart/>
                 </span>
               </div>
+               {/* 👇 YEH HAI AI PREDICTION WALA CODE (ISSE ADD KARO) */}
+        <div className="mt-1 mb-3 flex items-center gap-1.5 bg-green-50 w-fit px-2 py-1 rounded-md border border-green-100">
+            <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            <p className="text-[10px] font-black text-green-700 uppercase tracking-tighter">
+                AI Predicts: {item.price > 100 ? '12-15' : '6-9'} mins wait
+            </p>
+        </div>
+        {/* 👆 AI CODE KHATAM */}
               <AddToTrayButton item={item} />
             </div>
           </div>

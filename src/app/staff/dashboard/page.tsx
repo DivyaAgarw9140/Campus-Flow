@@ -20,10 +20,20 @@ export default function StaffDashboard() {
   // 2. Button dabane par jo kaam hoga (Database Update)
   async function updateStatus(orderId: string, newStatus: string) {
     console.log("Updating to:", newStatus);
+let updateData:any={ status: newStatus};
+if(newStatus==='PREPARING')
+{
+  updateData.prep_started_at=new Date().toISOString();
+}
+else if(newStatus ==='READY')
+{
+  updateData.prep_finished_at=new Date().toISOString();
+
+}
 
     const { error } = await supabase
       .from('orders')
-      .update({ status: newStatus })
+      .update(updateData)
       .eq('id', orderId);
 
     if (error) {
@@ -32,7 +42,8 @@ export default function StaffDashboard() {
     } else {
       // Refresh list taaki card move ho jaye
       await fetchOrders(); 
-      alert("Success! Status updated to " + newStatus);
+     const msg= newStatus==='READY'?"STUDENT notified!":"Cooking started";
+     alert(msg);
     }
   }
 

@@ -21,7 +21,7 @@ export default function LoginPage() {
         else {
             if (!email.endsWith("@gmail.com")) {
                 alert("Please use a proper Gmail address")
-                return
+                return;
             }
             const { error } = await supabase.auth.signUp({
                 email,
@@ -67,7 +67,7 @@ export default function LoginPage() {
                     onClick={handleAuth}
                     className="w-full bg-orange-600 text-white font-bold py-3 rounded-xl hover:bg-orange-700 transition"
                 >
-                    {isLogin ? "Login" : "SIgnup"}
+                    {isLogin ? "Login" : "Signup"}
                 </button>
 
                 <p className="mt-4 text-center text-sm text-gray-600">

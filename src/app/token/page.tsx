@@ -1,9 +1,10 @@
 "use client"
+import { Suspense } from "react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "../../../utils/supabase/client";
 
-export default function TokenPage() {
+ function TokenPageContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get('id');
   const [status, setStatus] = useState("PENDING");
@@ -46,5 +47,12 @@ export default function TokenPage() {
         {/* Keep your QR code here too */}
       </div>
     </div>
+  );
+}
+export default function TokenPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TokenPageContent />
+    </Suspense>
   );
 }

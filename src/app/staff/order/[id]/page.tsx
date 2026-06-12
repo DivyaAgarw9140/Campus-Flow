@@ -98,7 +98,7 @@ export default function StaffOrdersBoard() {
       `)
       .eq("id", id)
       .single();
-    if (data) setOrders((prev) => [...prev, castOrder(data as RawOrder)]);
+    if (data) setOrders((prev) => [...prev, castOrder(data as unknown as  RawOrder)]);
   }
 
   // Fetch active orders
@@ -113,7 +113,7 @@ export default function StaffOrdersBoard() {
         .in("status", ["PENDING", "PREPARING", "READY"])
         .order("created_at", { ascending: true });
 
-      setOrders((data as RawOrder[] ?? []).map(castOrder));
+      setOrders((data as unknown as RawOrder[] ?? []).map(castOrder));
       setLoading(false);
     }
     fetchOrders();
