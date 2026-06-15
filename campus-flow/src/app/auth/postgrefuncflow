@@ -1,0 +1,11 @@
+User sends:
+user id
+total price
+items JSON
+Function:
+creates order
+loops items
+inserts each
+Returns:
+order id
+token

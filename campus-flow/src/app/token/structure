@@ -1,0 +1,20 @@
+your-project/
+│
+├── app/
+│   ├── actions/
+│   │   └── place-order.ts        ← already given to you
+│   ├── order/
+│   │   └── [id]/
+│   │       └── page.tsx          ← (next to build)
+│   ├── staff/
+│   │   └── page.tsx              ← your existing staff page
+│   └── page.tsx                  ← your existing student menu page
+│
+├── components/
+│   ├── Cart.tsx                  ← put it here
+│   └── AddToTrayButton.tsx       ← put it here
+│
+├── store/
+│   └── cart-store.ts             ← CREATE this folder, put it here
+│
+└── package.json

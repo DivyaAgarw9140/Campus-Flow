@@ -1,0 +1,111 @@
+🧠 FULL FLOW (IMPORTANT)
+User places order
+Backend creates order + token
+Redirect to:
+/token?id=123&token=45
+This page:
+reads URL
+shows token
+shows order id
+4. Read URL data
+const searchParams = useSearchParams();
+
+👉 Gets access to URL like:
+
+/token?id=123&token=45
+Then:
+const token = searchParams.get('token');
+const orderId = searchParams.get('id');
+🧠 Meaning:
+Variable	Comes from
+token	URL
+orderId	URL
+🍔 Real-Life Analogy
+
+👉 User is carrying a paper:
+
+Order ID: 123
+Token: 45
+
+This page just reads that paper
+
+🔹 5. UI (return block)
+return (
+
+👉 This is what user sees on screen
+
+🔹 6. Main Container
+<div className="flex flex-col items-center justify-center min-h-screen bg-orange-50">
+
+👉 Meaning:
+
+center everything
+full screen
+orange background
+🔹 7. Card Box
+<div className="bg-white p-8 rounded-[40px] shadow-2xl">
+
+👉 This is the main card UI
+
+🔹 8. Title
+<h1>Order Confirmed!</h1>
+
+👉 Shows success message
+
+🔹 9. Token Display
+<h2 className="text-8xl">#{token}</h2>
+
+👉 Shows token number from URL
+
+Example:
+
+#45
+🔹 10. Order ID Box
+<p>{orderId}</p>
+
+👉 Shows order ID
+
+🔹 11. Button
+<Link href="/" >
+  Order More Food
+</Link>
+
+👉 Takes user back to home page
+
+🧠 FULL FLOW (IMPORTANT)
+User places order
+Backend creates order + token
+Redirect to:
+/token?id=123&token=45
+This page:
+reads URL
+shows token
+shows order id
+🍔 REAL-LIFE ANALOGY
+
+👉 Like restaurant system:
+
+You order food 🍔
+Counter gives slip 🧾
+Screen shows:
+Token number 🎫
+Order ID
+⚡ ONE-LINE SUMMARY
+
+“This page reads order details from URL and displays the token and order confirmation UI.”
+
+💥 INTERVIEW VERSION
+
+“TokenPage is a client-side Next.js page that uses useSearchParams to read order ID and token from the URL and display order confirmation details.”
+
+🧠 SUPER SIMPLE FINAL UNDERSTANDING
+Part	Meaning
+useSearchParams	read URL
+token	order number
+orderId	database order
+UI	confirmation screen
+
+If you want next step, I can show:
+👉 how this whole flow works end-to-end in 1 diagram (frontend → backend → database → token page)
+const token = searchParams.get('token');
+const orderId = searchParams.get('id');
