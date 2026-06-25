@@ -1,0 +1,14 @@
+services:
+  localstack:
+   container_name: campus-flow-aws
+   image: localstack/localstack:latest
+   ports:
+      - "127.0.0.1:4566:4566"
+      - "127.0.0.1:4510-4559:4510-4559"
+   environment:
+     - SERVICES=sqs,lambda,s3
+      - DEBUG=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+   volumes:
+        - "./volume:/var/lib/localstack"
+        - "/var/run/docker.sock:/var/run/docker.sock"

@@ -1,83 +1,114 @@
-import { supabase } from "../lib/supabase"; 
-import { MenuItem } from "../types";        
-import AddToTrayButton from "../components/AddToTrayButton";
-import ActiveOrderBadge from "../components/ActiveOrderBadge"; 
-import Cart from "../components/Cart";
-import Link from "next/link";
+'use client'
 
-export default async function HomePage() {
-  const { data, error } = await supabase
-    .from("menu_items")
-    .select("*")
-    .order('category');
+import Link from 'next/link'
+import { getAIInsights } from '../services/predictionService'
+import { placeOrder } from '../services/orderService'
+import { getFoodRecommendation } from '../services/aiServices' // Naya Import
+import { supabase } from '../utils/supabase/client'
+import { useState, useEffect } from 'react'
 
-  if (error) {
-    return <div className="p-20 text-center text-red-500">Failed to load menu. Please refresh.</div>;
+export default function StudentHome() {
+  const [insights, setInsights] = useState<any>(null)
+  const [loading, setLoading] = useState(false)
+  const [myOrder, setMyOrder] = useState<any>(null)
+  
+  // AI States
+  const [query, setQuery] = useState('')
+  const [aiResponse, setAiResponse] = useState('')
+
+  useEffect(() => {
+    getAIInsights().then(setInsights)
+    const channel = supabase.channel('live-orders')
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'orders' }, 
+      (payload) => { setMyOrder(payload.new) })
+      .subscribe()
+    return () => { supabase.removeChannel(channel) }
+  }, [])
+
+  const handleAISearch = async () => {
+    if (!query) return;
+    setLoading(true);
+    const suggestion = await getFoodRecommendation(query, insights?.waitTime || 0);
+    setAiResponse(suggestion);
+    setLoading(false);
   }
 
-  const menuItems: MenuItem[] = data || [];
-  
-  // Amazon SDE Logic: Helper function for ETA
-  const waitTime = 16.5;
-  const getFriendlyMessage = (time: number) => {
-    if (time <= 5) return "Ready almost instantly!";
-    if (time <= 10) return `Pick up in about ${Math.round(time)} mins`;
-    return `Busy kitchen: Ready in ~${Math.round(time)} mins`;
-  };
+  const handleOrder = async (foodName: string, price: number) => {
+    setLoading(true)
+    try {
+      const result = await placeOrder("STUDENT_101", [{ name: foodName, qty: 1 }], price)
+      if (result) setMyOrder(result[0])
+      alert(`✅ ${foodName} ordered!`)
+      getAIInsights().then(setInsights)
+    } catch (error) { alert("❌ Order failed") }
+    finally { setLoading(false) }
+  }
 
   return (
-    <main className="p-4 md:p-8 bg-gray-50 min-h-screen max-w-7xl mx-auto pb-32">
-      <header className="flex justify-between items-center mb-12">
-        <div>
-          <h1 className="text-4xl font-black text-orange-900 tracking-tight italic">Campus Flow</h1>
-          <p className="text-orange-700/60 font-medium">Canteen in your pocket</p>
-        </div>
-        <ActiveOrderBadge /> 
-      </header>
+    <main className="min-h-screen bg-white pb-10">
+      <nav className="p-6 flex justify-between items-center border-b">
+        <h1 className="text-2xl font-black text-orange-600 tracking-tighter">CAMPUSFLOW</h1>
+        <Link href="/admin" className="text-xs font-bold text-gray-400 hover:text-orange-500">STAFF LOGIN →</Link>
+      </nav>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {menuItems.map((item) => (
-          <div key={item.id} className="group bg-white p-2 rounded-3xl shadow-sm border border-orange-100 hover:shadow-xl transition-all duration-300">
-            <div className="relative h-48 w-full mb-4 overflow-hidden rounded-2xl">
-                <img 
-                  src={item.image_url || "/placeholder-food.jpg"} 
-                  alt={item.name}
-                  className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
-                />
-            </div>
-            
-            <div className="px-3 pb-3">
-              <div className="flex justify-between items-start mb-2">
-                <h2 className="text-xl font-bold text-gray-800">{item.name}</h2>
-                <span className="bg-orange-100 text-orange-700 text-sm px-2 py-1 rounded-lg font-bold">
-                   ₹{item.price}
-                </span>
-              </div>
-
-              {/* 🤖 AI PREDICTION BADGE */}
-              <div className="mt-1 mb-4 p-3 bg-green-50 rounded-2xl border border-green-100">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                  </span>
-                  <p className="text-[10px] font-black text-green-700 uppercase tracking-tighter">
-                    AI Live Estimate
-                  </p>
-                </div>
-                <p className="text-xs font-bold text-slate-600">
-                  {getFriendlyMessage(waitTime)}
-                </p>
-              </div>
-
-              <AddToTrayButton item={item} />
-            </div>
+      <div className="max-w-md mx-auto pt-8 px-6">
+        
+        {/* AI SMART SEARCH (Pillar 2) */}
+        <div className="mb-8">
+          <div className="flex gap-2 p-2 bg-gray-100 rounded-3xl border-2 border-transparent focus-within:border-orange-500 transition-all">
+            <input 
+              type="text" 
+              placeholder="Feeling tired? Ask AI..." 
+              className="flex-1 bg-transparent px-4 py-2 outline-none text-sm"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+            <button onClick={handleAISearch} className="bg-orange-500 text-white px-5 py-2 rounded-2xl font-bold text-xs uppercase">Ask AI</button>
           </div>
-        ))}
-      </div>
+          {aiResponse && (
+            <div className="mt-4 p-4 bg-purple-50 border-2 border-purple-100 rounded-2xl animate-in slide-in-from-top-2">
+              <p className="text-[10px] font-black text-purple-600 uppercase mb-1">AI Recommendation</p>
+              <p className="text-gray-700 text-sm italic leading-relaxed">"{aiResponse}"</p>
+            </div>
+          )}
+        </div>
 
-      {/* ✅ Cart ko yahan rakha hai taaki sidebar sahi se khule */}
-      <Cart />
+        {/* LIVE TRACKER */}
+        {myOrder && (
+          <div className="mb-8 p-6 bg-gray-900 rounded-[32px] shadow-2xl border-b-4 border-orange-500">
+            <h3 className="text-white text-2xl font-black italic uppercase">
+              {myOrder.status === 'QUEUED' ? 'Waiting in Line...' : 
+               myOrder.status === 'PREPARING' ? 'Cooking Now 👨‍🍳' : 'Ready for Pickup! 🍕'}
+            </h3>
+          </div>
+        )}
+
+        <div className="bg-orange-50 p-8 rounded-[40px] text-center border-2 border-orange-100">
+          <h2 className="text-gray-500 uppercase tracking-widest text-[10px] font-bold mb-2">Live Queue Wait-Time</h2>
+          <p className="text-7xl font-black text-orange-600">{insights?.waitTime || '--'}</p>
+          <p className="text-lg font-bold text-orange-600 -mt-2 uppercase">Minutes</p>
+        </div>
+
+        <div className="mt-10 space-y-6">
+          <h3 className="text-2xl font-bold text-gray-800 italic">Quick Cravings 😋</h3>
+          <div className="grid gap-4">
+            <button onClick={() => handleOrder("Samosa", 15)} disabled={loading} className="group flex justify-between items-center p-6 bg-gray-50 rounded-3xl border-2 border-transparent hover:border-orange-500 transition-all">
+              <div className="text-left">
+                <h4 className="font-bold text-gray-800 text-lg">Crispy Samosa</h4>
+                <p className="text-gray-500 text-sm">₹15 • Freshly fried</p>
+              </div>
+              <span className="bg-white p-3 rounded-full shadow-sm text-xl">＋</span>
+            </button>
+            <button onClick={() => handleOrder("Cold Coffee", 40)} disabled={loading} className="group flex justify-between items-center p-6 bg-gray-50 rounded-3xl border-2 border-transparent hover:border-orange-500 transition-all">
+              <div className="text-left">
+                <h4 className="font-bold text-gray-800 text-lg">Cold Coffee</h4>
+                <p className="text-gray-500 text-sm">₹40 • Caffeine kick</p>
+              </div>
+              <span className="bg-white p-3 rounded-full shadow-sm text-xl">＋</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </main>
-  );
+  )
 }

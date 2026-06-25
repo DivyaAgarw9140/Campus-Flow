@@ -1,0 +1,18 @@
+// User clicks button
+//        ↓
+// handleOrder()
+//        ↓
+// myOrder object banta hai
+//        ↓
+// placeOrderAction(myOrder)
+//        ↓
+// Order SQS queue mein jata hai
+//        ↓
+// SQS MessageId deta hai
+//        ↓
+// { success: true, messageId: "abc123" }
+//        ↓
+// Frontend ko response milta hai
+//        ↓
+// Alert:
+// "Order Received! Token ID: abc123"
