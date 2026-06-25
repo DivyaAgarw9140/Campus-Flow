@@ -1,4 +1,5 @@
 import os
+os.environ["KMP_DUPLICATE_LTB_OK"]="TRUE"
 import pandas as pd
 import numpy as np
 from fastapi import FastAPI
@@ -24,9 +25,13 @@ app.add_middleware(
 
 # Supabase Connection
 url = "https://olvwknoslyjwarfdsltx.supabase.co"
-key = os.getenv("NEXT_PUBLIC_SUPABASE_ANON_KEY") or "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-supabase = create_client(url, key)
-
+key =  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+print(f"DEBUG: Supabase URL is -> {url}")
+print(f"DEBUG: Supabase Key starts with -> {key[:10]}...") # Sirf pehle 10 characters dikhayega security ke liye
+try:
+    supabase = create_client(url, key)
+except Exception as e:
+    print(f"Connection failed :{e}")
 # --- MODEL 1: WAIT TIME (Linear Regression) ---
 wait_model = LinearRegression()
 is_wait_trained = False
