@@ -101,15 +101,15 @@ export default function StudentHome() {
           <div className="grid gap-4">
             <button onClick={() => handleOrder("Samosa", 15)} disabled={loading} className="group flex justify-between items-center p-6 bg-gray-50 rounded-3xl border-2 border-transparent hover:border-orange-500 transition-all">
               <div className="text-left">
-                <h4 className="font-bold text-gray-800 text-lg">Crispy Samosa</h4>
-                <p className="text-gray-500 text-sm">₹15 • Freshly fried</p>
+                <h4 className="font-bold text-gray-800 text-lg"> Samosa</h4>
+                <p className="text-gray-500 text-sm">₹15 </p>
               </div>
               <span className="bg-white p-3 rounded-full shadow-sm text-xl">＋</span>
             </button>
             <button onClick={() => handleOrder("Cold Coffee", 40)} disabled={loading} className="group flex justify-between items-center p-6 bg-gray-50 rounded-3xl border-2 border-transparent hover:border-orange-500 transition-all">
               <div className="text-left">
                 <h4 className="font-bold text-gray-800 text-lg">Cold Coffee</h4>
-                <p className="text-gray-500 text-sm">₹40 • Caffeine kick</p>
+                <p className="text-gray-500 text-sm">₹40 </p>
               </div>
               <span className="bg-white p-3 rounded-full shadow-sm text-xl">＋</span>
             </button>
