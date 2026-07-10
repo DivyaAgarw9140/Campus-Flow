@@ -2,14 +2,12 @@
 import { Suspense } from "react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { createClient } from "../../../utils/supabase/client";
+import { supabase } from "@/utils/supabase/client";
 
  function TokenPageContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get('id');
   const [status, setStatus] = useState("PENDING");
-  const supabase = createClient();
-
   useEffect(() => {
     if (!orderId) return;
 

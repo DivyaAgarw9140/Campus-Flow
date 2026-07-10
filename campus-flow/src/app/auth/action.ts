@@ -1,5 +1,5 @@
 "use server"
-import { createClient } from "../../../utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 
 export async function signUp(formdata: FormData) { // Added 'signUp' here
   const name = formdata.get('name') as string;     // Extract the name

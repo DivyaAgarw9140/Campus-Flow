@@ -1,5 +1,5 @@
 "use server"
-import { createClient } from "../../utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 
 export async function processOrderAction(cart: any[], total: number) {
   const supabase = await createClient();

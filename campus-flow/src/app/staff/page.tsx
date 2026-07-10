@@ -1,13 +1,14 @@
 "use client"
 import { useEffect, useState } from "react";
-import { createClient } from "../../../utils/supabase/client";
+// import { createClient } from "@/utils/supabase/client";
+import {supabase} from "@/utils/supabase/client";
 import { updateOrderStatus, toggleItemAvailability } from "./action";
 import ActiveOrderBadge from "@/components/ActiveOrderBadge";
 
 export default function StaffDashboard() {
   const [orders, setOrders] = useState<any[]>([]);
   const [menuItems, setMenuItems] = useState<any[]>([]);
-  const supabase = createClient();
+  // const supabase = createClient();
 
   const fetchOrders = async () => {
     const { data } = await supabase

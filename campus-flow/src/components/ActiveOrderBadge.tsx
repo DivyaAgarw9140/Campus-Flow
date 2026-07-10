@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
-import { createClient } from "../../utils/supabase/client";
+import { supabase } from "@/utils/supabase/client";
 
 // 1. Define strict types (Recruiters love this)
 interface Order {
@@ -12,7 +12,6 @@ interface Order {
 
 export default function ActiveOrderBadge() {
   const [activeOrder, setActiveOrder] = useState<Order | null>(null);
-  const supabase = createClient();
 
   useEffect(() => {
     let channel: any;
