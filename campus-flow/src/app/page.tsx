@@ -25,22 +25,29 @@ export default function StudentHome() {
     return () => { supabase.removeChannel(channel) }
   }, [])
 
-  const handleAISearch = async () => {
-    if (!query) return;
-    setLoading(true);
+ const handleAISearch = async () => {
+  setLoading(true);
+  try {
     const suggestion = await getFoodRecommendation(query, insights?.waitTime || 0);
     setAiResponse(suggestion);
-    setLoading(false);
+  } catch (error) {
+    console.error("AI Search Failed");
+  } finally {
+    // YEH LINE TYPING UNLOCK KAR DEGI CHAHE ERROR AAYE YA NAHI
+    setLoading(false); 
   }
-
+};
   const handleOrder = async (foodName: string, price: number) => {
+    console.log("Button clicked for:",foodName);
     setLoading(true)
     try {
       const result = await placeOrder("STUDENT_101", [{ name: foodName, qty: 1 }], price)
-      if (result) setMyOrder(result[0])
-      alert(`✅ ${foodName} ordered!`)
-      getAIInsights().then(setInsights)
-    } catch (error) { alert("❌ Order failed") }
+       console.log("Order Result from DB:", result); 
+      alert(`✅ ${foodName} ordered!`);
+    }
+     catch (error:any)
+     { console.error("Critical error durinf order",error.message||error);
+       alert("❌ Order failed") }
     finally { setLoading(false) }
   }
 
