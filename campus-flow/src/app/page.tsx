@@ -26,12 +26,15 @@ export default function StudentHome() {
   }, [])
 
  const handleAISearch = async () => {
+  if(!query)
+    return;
   setLoading(true);
   try {
     const suggestion = await getFoodRecommendation(query, insights?.waitTime || 0);
     setAiResponse(suggestion);
   } catch (error) {
-    console.error("AI Search Failed");
+    console.error("AI Serror",error);
+    setAiResponse("AI is currently sleepy,try again");
   } finally {
     // YEH LINE TYPING UNLOCK KAR DEGI CHAHE ERROR AAYE YA NAHI
     setLoading(false); 
@@ -61,24 +64,28 @@ export default function StudentHome() {
       <div className="max-w-md mx-auto pt-8 px-6">
         
         {/* AI SMART SEARCH (Pillar 2) */}
-        <div className="mb-8">
-          <div className="flex gap-2 p-2 bg-gray-100 rounded-3xl border-2 border-transparent focus-within:border-orange-500 transition-all">
-            <input 
-              type="text" 
-              placeholder="Feeling tired? Ask AI..." 
-              className="flex-1 bg-transparent px-4 py-2 outline-none text-sm"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <button onClick={handleAISearch} className="bg-orange-500 text-white px-5 py-2 rounded-2xl font-bold text-xs uppercase">Ask AI</button>
-          </div>
-          {aiResponse && (
-            <div className="mt-4 p-4 bg-purple-50 border-2 border-purple-100 rounded-2xl animate-in slide-in-from-top-2">
-              <p className="text-[10px] font-black text-purple-600 uppercase mb-1">AI Recommendation</p>
-              <p className="text-gray-700 text-sm italic leading-relaxed">"{aiResponse}"</p>
-            </div>
-          )}
-        </div>
+        
+       <div className="relative z-50 mb-10 w-full"> {/* z-50 ensures no overlay */}
+  <div className="flex gap-2 p-2 bg-gray-100 rounded-3xl border-2 border-orange-200 focus-within:border-orange-500 shadow-inner">
+    <input 
+      type="text" 
+      placeholder="Feeling tired? Ask AI..." 
+      className="flex-1 bg-transparent px-4 py-2 outline-none text-sm text-gray-900 placeholder:text-gray-400" 
+      value={query || ''} // Ensure it's never undefined
+      onChange={(e) => {
+        console.log("Typing:", e.target.value); // Debugging line
+        setQuery(e.target.value);
+      }}
+      onKeyDown={(e) => e.key === 'Enter' && handleAISearch()} // Enter se search
+    />
+    <button 
+      onClick={handleAISearch}
+      className="bg-orange-500 text-white px-6 py-2 rounded-2xl font-bold text-xs uppercase hover:bg-orange-600 transition-all active:scale-95"
+    >
+      {loading ? '...' : 'ASK AI'}
+    </button>
+  </div>
+</div>
 
         {/* LIVE TRACKER */}
         {myOrder && (
