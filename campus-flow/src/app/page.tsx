@@ -33,7 +33,7 @@ export default function StudentHome() {
   try {
     const suggestion = await getFoodRecommendation(query, insights?.waitTime || 0);
     console.log("AI suggestion recieved",suggestion);
-    setAiResponse(suggestion);
+    setAiResponse(String(suggestion));
   } catch (error) {
     console.error("AI error",error);
     setAiResponse("AI is busy,try again");
@@ -88,7 +88,13 @@ export default function StudentHome() {
     </button>
   </div>
 </div>
-
+{/* --- AI SUGGESTION BOX --- */}
+{aiResponse && (
+  <div className="mt-4 p-6 bg-purple-600 text-white rounded-[32px] shadow-2xl relative z-50 border-b-4 border-purple-800 animate-in fade-in zoom-in duration-300">
+    <p className="text-[10px] font-black uppercase tracking-widest mb-2 text-purple-200">CampusFlow AI Suggestion</p>
+    <p className="text-lg font-bold italic leading-tight">"{aiResponse}"</p>
+  </div>
+)}
         {/* LIVE TRACKER */}
         {myOrder && (
           <div className="mb-8 p-6 bg-gray-900 rounded-[32px] shadow-2xl border-b-4 border-orange-500">
