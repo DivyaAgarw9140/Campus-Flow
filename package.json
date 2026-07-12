@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@upstash/redis": "^1.38.0",
     "uuid": "^14.0.1"
   }
 }
