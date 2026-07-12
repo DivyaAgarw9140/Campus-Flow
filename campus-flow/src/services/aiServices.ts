@@ -17,7 +17,7 @@ export const getFoodRecommendation = async (userQuery: string, waitTime: number)
           role: "user", 
           content: `You are the CampusFlow Canteen AI. Menu: Samosa(₹15), Cold Coffee(₹40), Maggi(₹30). Wait Time: ${waitTime} mins. Student Query: "${userQuery}". Suggest 1 item in a short, cool sentence.` 
         }],
-        temperature: 0.7
+       
       })
     });
 
@@ -28,14 +28,12 @@ export const getFoodRecommendation = async (userQuery: string, waitTime: number)
       return "AI is updating its brain. Try a Samosa while I wait!";
     }
 
-    if (data.choices && data.choices.length > 0) {
+    
       return data.choices[0].message.content;
     }
-
-    return "How about a Cold Coffee? Perfect for right now!";
-
-  } catch (error) {
-    console.error("Network Error:", error);
-    return "Connection glitch. Maggi is always a safe bet!";
-  }
+catch(error)
+{
+   console.error("AI fetch failed",error);
+   return "AI is offline ";
+}
 };
