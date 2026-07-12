@@ -26,15 +26,17 @@ export default function StudentHome() {
   }, [])
 
  const handleAISearch = async () => {
+  console.log("AI Search button triggered");
   if(!query)
     return;
   setLoading(true);
   try {
     const suggestion = await getFoodRecommendation(query, insights?.waitTime || 0);
+    console.log("AI suggestion recieved",suggestion);
     setAiResponse(suggestion);
   } catch (error) {
-    console.error("AI Serror",error);
-    setAiResponse("AI is currently sleepy,try again");
+    console.error("AI error",error);
+    setAiResponse("AI is busy,try again");
   } finally {
     // YEH LINE TYPING UNLOCK KAR DEGI CHAHE ERROR AAYE YA NAHI
     setLoading(false); 
